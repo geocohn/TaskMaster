@@ -144,14 +144,9 @@ public class TaskDetailFragment extends DialogFragment
             @Override
             public void onClick(View v) {
                 saveData();
-                dismiss();
-            }
-        });
-        Button cancelView = (Button) mView.findViewById(R.id.cancel);
-        cancelView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
+                if (mNewTask) {
+                    dismiss();
+                }
             }
         });
         if (!mNewTask) {
