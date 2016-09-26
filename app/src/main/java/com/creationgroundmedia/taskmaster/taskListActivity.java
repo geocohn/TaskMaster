@@ -139,9 +139,6 @@ public class taskListActivity extends AppCompatActivity
         SimpleTaskListCursorRecyclerViewAdapter adapter =
                 (SimpleTaskListCursorRecyclerViewAdapter) mRecyclerView.getAdapter();
         adapter.changeCursor(data);
-//        Log.d(LOG_TAG, "onLoadFinished, smooth scroll to " + mSelectedPosition);
-        // smoothScrollToPosition() ensures that you don't start at the top
-        // when you come back from the DetailActivity unless that's where you were to begin with
         mRecyclerView.smoothScrollToPosition(mSelectedPosition);
     }
 
@@ -239,6 +236,7 @@ public class taskListActivity extends AppCompatActivity
                     TaskListContract.TaskListEntry.buildTaskUri(itemId),
                     null,
                     null);
+            getSupportLoaderManager().restartLoader(URL_LOADER, null, taskListActivity.this);
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
