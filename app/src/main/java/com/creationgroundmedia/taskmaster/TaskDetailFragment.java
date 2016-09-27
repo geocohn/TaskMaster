@@ -182,6 +182,14 @@ public class TaskDetailFragment extends DialogFragment
 
             }
         });
+
+        if (mNewTask) {
+            // Make "normal" the default priority.
+            // the position for "normal" should be 1
+            mPriorityView.setSelection(1);
+            mPriority = mPriorityView.getSelectedItem().toString();
+        }
+
         Button saveView = (Button) mView.findViewById(R.id.save);
         saveView.setOnClickListener(new View.OnClickListener() {
             @Override
