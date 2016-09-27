@@ -53,6 +53,16 @@ public class TaskListProvider extends ContentProvider {
                         .delete(TaskListContract.TaskListEntry.TABLE_NAME,
                                 SELECTION_BY_ID_STRING + getTaskRowIdFromUri(uri),
                                 null);
+                /*
+                 * if we delete a single row,
+                 * listeners on the whole list will have to be notified too.
+                 * This doesn't happen automatically because
+                 * the list item URI isn't derived from the list URI
+                 */
+                if (retVal > 0) {
+                    getContext().getContentResolver()
+                            .notifyChange(TaskListContract.TaskListEntry.TASKLIST_URI, null);
+                }
                 break;
             }
             default: {

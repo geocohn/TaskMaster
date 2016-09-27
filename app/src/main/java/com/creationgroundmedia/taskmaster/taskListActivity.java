@@ -264,7 +264,6 @@ public class taskListActivity extends AppCompatActivity
                     TaskListContract.TaskListEntry.buildTaskUri(itemId),
                     null,
                     null);
-            getSupportLoaderManager().restartLoader(URL_LOADER, null, taskListActivity.this);
         }
 
         public void saveRow(String itemId, boolean done) {
@@ -275,7 +274,6 @@ public class taskListActivity extends AppCompatActivity
                     values,
                     null,
                     null);
-//            getSupportLoaderManager().restartLoader(URL_LOADER, null, taskListActivity.this);
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
