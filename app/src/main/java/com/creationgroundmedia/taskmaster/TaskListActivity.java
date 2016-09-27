@@ -49,6 +49,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Created by George Cohn III on 9/24/16.
+ *
  * An activity representing a list of tasks. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
@@ -176,6 +178,9 @@ public class TaskListActivity extends AppCompatActivity
     }
 
     public class TaskTouchHelper extends ItemTouchHelper.SimpleCallback {
+        /**
+         * Implements swipe-to-delete. That is the only way to delete tasks in this app
+         */
         private SimpleTaskListCursorRecyclerViewAdapter mTaskAdapter;
 
         public TaskTouchHelper(SimpleTaskListCursorRecyclerViewAdapter taskAdapter){

@@ -28,6 +28,8 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 /**
+ * Created by George Cohn III on 9/24/16.
+ *
  * An activity representing a single task detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items

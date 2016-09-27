@@ -37,7 +37,7 @@
             android:layout_marginRight="16dp">
 
             <CheckBox
-                android:text="Done"
+                android:text="@string/list_done"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/task_list_completed"

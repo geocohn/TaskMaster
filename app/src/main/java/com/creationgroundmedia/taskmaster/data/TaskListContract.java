@@ -22,7 +22,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
- * Created by George Cohn III on 7/4/16.
+ * Created by George Cohn III on 9/24/16.
  * Basic Content Provider Contract
  */
 

@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+/**
+ * Created by George Cohn III on 9/24/16.
+ * Basic content provider for Tasks and Task lists
+ */
+
 package com.creationgroundmedia.taskmaster.data;
 
 import android.content.ContentProvider;

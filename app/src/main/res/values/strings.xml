@@ -17,6 +17,12 @@
 <resources>
     <string name="app_name">Task Master</string>
     <string name="title_task_detail">Task Detail</string>
+    <string name="detail_save">Save</string>
+    <string name="detail_label_priority">Priority</string>
+    <string name="detail_done">Done</string>
+    <string name="detail_hint_description">Task description</string>
+    <string name="task_name">Task name</string>
+    <string name="list_done">Done</string>
 
     <string-array name="priority">
         <item>Urgent</item>

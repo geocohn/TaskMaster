@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.creationgroundmedia.taskmaster.data.TaskListContract.TaskListEntry;
 
 /**
- * Created by George Cohn III on 7/4/16.
+ * Created by George Cohn III on 9/24/16.
  * Build the SQLite database
  */
 

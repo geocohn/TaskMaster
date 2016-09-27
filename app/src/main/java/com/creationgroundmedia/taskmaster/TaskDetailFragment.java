@@ -42,6 +42,8 @@ import android.widget.Spinner;
 import com.creationgroundmedia.taskmaster.data.TaskListContract;
 
 /**
+ * Created by George Cohn III on 9/24/16.
+ *
  * A fragment representing a single task detail screen.
  * This fragment is either contained in a {@link TaskListActivity}
  * in two-pane mode (on tablets) or a {@link TaskDetailActivity}
@@ -127,7 +129,7 @@ public class TaskDetailFragment extends DialogFragment
             mDueDate = savedInstanceState.getString(TaskListContract.TaskListEntry.COLUMN_DUEDATE);
             mName = savedInstanceState.getString(TaskListContract.TaskListEntry.COLUMN_NAME);
             mPriority = savedInstanceState.getString(TaskListContract.TaskListEntry.COLUMN_PRIORITY);
-            mDone = savedInstanceState.getString(TaskListContract.TaskListEntry.COLUMN_STATUS) != "0";
+            mDone = savedInstanceState.getString(TaskListContract.TaskListEntry.COLUMN_STATUS).compareTo("0") != 0;
         }
 
         /**
