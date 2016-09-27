@@ -114,7 +114,6 @@ public class TaskListActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 TaskDetailFragment.launchDialog(mContext);
-//                TaskDetailFragment.launchInstance(mContext, "");
             }
         });
 
