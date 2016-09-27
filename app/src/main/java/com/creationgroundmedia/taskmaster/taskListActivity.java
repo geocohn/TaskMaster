@@ -1,5 +1,6 @@
 package com.creationgroundmedia.taskmaster;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Paint;
@@ -22,10 +23,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.creationgroundmedia.taskmaster.data.TaskListContract;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * An activity representing a list of tasks. This activity
@@ -43,15 +47,17 @@ public class taskListActivity extends AppCompatActivity
 
     private static final String[] PROJECTION = new String[] {
             TaskListContract.TaskListEntry._ID,
+            TaskListContract.TaskListEntry.COLUMN_DUEDATE,
             TaskListContract.TaskListEntry.COLUMN_NAME,
             TaskListContract.TaskListEntry.COLUMN_PRIORITY,
             TaskListContract.TaskListEntry.COLUMN_STATUS
     };
     // The following must agree with the PROJECTION above
     private static final int ID = 0;
-    private static final int NAME = 1;
-    private static final int PRIORITY = 2;
-    private static final int STATUS = 3;
+    private static final int DATE = 1;
+    private static final int NAME = 2;
+    private static final int PRIORITY = 3;
+    private static final int STATUS = 4;
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -195,12 +201,16 @@ public class taskListActivity extends AppCompatActivity
 
             holder.mId = cursor.getString(ID);
             holder.mTaskName.setText(cursor.getString(NAME));
+            holder.mDueDate.setText(formattedDateString(cursor.getString(DATE)));
+            holder.mDone = cursor.getString(STATUS).compareTo("0") != 0;
+            strikeThrough(holder.mTaskName, holder.mDone);
+            holder.mTaskCompleted.setChecked(holder.mDone);
             holder.mTaskCompleted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        holder.mTaskName.setPaintFlags(holder.mTaskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                    }
+                    holder.mDone = isChecked;
+                    strikeThrough(holder.mTaskName, isChecked);
+                    saveRow(holder.mId, isChecked);
                 }
             });
             holder.mTaskContainer.setOnClickListener(new View.OnClickListener() {
@@ -216,6 +226,14 @@ public class taskListActivity extends AppCompatActivity
                     }
                 }
             });
+        }
+
+        private void strikeThrough(TextView textView, boolean strike) {
+            if (strike) {
+                textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                textView.setPaintFlags(textView.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+            }
         }
 
         @Override
@@ -239,13 +257,26 @@ public class taskListActivity extends AppCompatActivity
             getSupportLoaderManager().restartLoader(URL_LOADER, null, taskListActivity.this);
         }
 
+        public void saveRow(String itemId, boolean done) {
+            ContentValues values = new ContentValues();
+            values.put(TaskListContract.TaskListEntry._ID, Long.valueOf(itemId));
+            values.put(TaskListContract.TaskListEntry.COLUMN_STATUS, done? "1" : "0");
+            getContentResolver().update(
+                    TaskListContract.TaskListEntry.buildTaskUri(itemId),
+                    values,
+                    null,
+                    null);
+//            getSupportLoaderManager().restartLoader(URL_LOADER, null, taskListActivity.this);
+        }
+
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
             public final CheckBox mTaskCompleted;
             public final LinearLayout mTaskContainer;
             public final TextView mTaskName;
-            public final RatingBar mTaskPriority;
+            public final TextView mDueDate;
             public String mId;
+            public boolean mDone;
 
             public ViewHolder(View view) {
                 super(view);
@@ -253,13 +284,25 @@ public class taskListActivity extends AppCompatActivity
                 mTaskCompleted = (CheckBox) view.findViewById(R.id.task_list_completed);
                 mTaskContainer = (LinearLayout) view.findViewById(R.id.task_list_container);
                 mTaskName = (TextView) view.findViewById(R.id.task_list_name);
-                mTaskPriority = (RatingBar) view.findViewById(R.id.task_list_priority);
+                mDueDate = (TextView) view.findViewById(R.id.task_list_due_date);
             }
 
             @Override
             public String toString() {
                 return super.toString() + " '" + mTaskName.getText() + "'";
             }
+        }
+    }
+
+    public String formattedDateString(String rawDate) {
+        final SimpleDateFormat rawFormat = new SimpleDateFormat("yyyyMMdd");
+        final SimpleDateFormat outFormat = new SimpleDateFormat();
+        try {
+            Date date = rawFormat.parse(rawDate);
+            return outFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
         }
     }
 }

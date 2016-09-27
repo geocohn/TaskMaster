@@ -55,6 +55,8 @@ public class TaskDetailFragment extends DialogFragment
     private static final int PRIORITY = 4;
     private static final int STATUS = 5;
 
+    private String[] mPriorities;
+
     private long mItemId;
     private View mView;
     private Loader<Cursor> mCursorLoader;
@@ -63,7 +65,7 @@ public class TaskDetailFragment extends DialogFragment
     private String mName;
     private String mDescription;
     private String mPriority;
-    private String mStatus = "New";
+    private String mStatus = "0";
     private Spinner mPriorityView;
     private EditText mNameView;
     private EditText mDescriptionView;
@@ -161,7 +163,7 @@ public class TaskDetailFragment extends DialogFragment
         mPriority = mPriorityView.getSelectedItem().toString();
         mStatus = "0";
         mDueDate = String.format("%4d%02d%02d",
-                mDateView.getYear(), mDateView.getMonth(), mDateView.getDayOfMonth());
+                mDateView.getYear(), mDateView.getMonth() + 1, mDateView.getDayOfMonth());
 
         ContentValues values = new ContentValues();
         values.put(TaskListContract.TaskListEntry.COLUMN_DESCRIPTION, mDescription);
@@ -184,6 +186,7 @@ public class TaskDetailFragment extends DialogFragment
     @Override
     public void onAttach(Context context) {
         mContext = context;
+        mPriorities = getResources().getStringArray(R.array.priority);
         super.onAttach(context);
     }
 
@@ -219,12 +222,26 @@ public class TaskDetailFragment extends DialogFragment
         mName = data.getString(NAME);
         mDueDate = data.getString(DUEDATE);
         mDescription = data.getString(DESCRIPTION);
+        mStatus = data.getString(STATUS);
+        mPriority = data.getString(PRIORITY);
 
         mNameView.setText(mName);
         mDescriptionView.setText(mDescription);
+        mPriorityView.setSelection(priorityPosition(mPriority));
 
         mDateView.init(getYear(mDueDate), getMonth(mDueDate), getDay(mDueDate), null);
         mStatus = "0";
+    }
+
+    private int priorityPosition(String priority) {
+        int i = 0;
+        for (String str : mPriorities) {
+            if (priority.compareTo(str) == 0) {
+                return i;
+            }
+            i++;
+        }
+        return 0;
     }
 
     private int getDay(@NonNull String date) {
@@ -232,7 +249,7 @@ public class TaskDetailFragment extends DialogFragment
     }
 
     private int getMonth(@NonNull String date) {
-        return Integer.parseInt(date.substring(4,6));
+        return Integer.parseInt(date.substring(4,6)) - 1;
     }
 
     private int getYear(@NonNull String date) {
@@ -241,6 +258,6 @@ public class TaskDetailFragment extends DialogFragment
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-//        nothing to be done here
+//        nothing to be mDone here
     }
 }
