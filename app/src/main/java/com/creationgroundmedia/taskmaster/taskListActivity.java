@@ -3,6 +3,7 @@ package com.creationgroundmedia.taskmaster;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
@@ -59,6 +61,8 @@ public class taskListActivity extends AppCompatActivity
     private static final int PRIORITY = 3;
     private static final int STATUS = 4;
 
+    private String[] mPriorities;
+    private int[] mPriorityColors;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -96,6 +100,9 @@ public class taskListActivity extends AppCompatActivity
 //                TaskDetailFragment.launchInstance(mContext, "");
             }
         });
+
+        mPriorities = getResources().getStringArray(R.array.priority);
+        mPriorityColors = getResources().getIntArray(R.array.priority_colors);
 
         mCursorLoader = getSupportLoaderManager().initLoader(URL_LOADER, null, this);
 
@@ -201,6 +208,9 @@ public class taskListActivity extends AppCompatActivity
 
             holder.mId = cursor.getString(ID);
             holder.mTaskName.setText(cursor.getString(NAME));
+            holder.mPriority = priorityPosition(cursor.getString(PRIORITY));
+            holder.mTaskCard.setCardBackgroundColor(mPriorityColors[holder.mPriority]);
+
             holder.mDueDate.setText(formattedDateString(cursor.getString(DATE)));
             holder.mDone = cursor.getString(STATUS).compareTo("0") != 0;
             strikeThrough(holder.mTaskName, holder.mDone);
@@ -259,7 +269,6 @@ public class taskListActivity extends AppCompatActivity
 
         public void saveRow(String itemId, boolean done) {
             ContentValues values = new ContentValues();
-            values.put(TaskListContract.TaskListEntry._ID, Long.valueOf(itemId));
             values.put(TaskListContract.TaskListEntry.COLUMN_STATUS, done? "1" : "0");
             getContentResolver().update(
                     TaskListContract.TaskListEntry.buildTaskUri(itemId),
@@ -275,8 +284,10 @@ public class taskListActivity extends AppCompatActivity
             public final LinearLayout mTaskContainer;
             public final TextView mTaskName;
             public final TextView mDueDate;
+            private final CardView mTaskCard;
             public String mId;
             public boolean mDone;
+            public int mPriority;
 
             public ViewHolder(View view) {
                 super(view);
@@ -285,6 +296,7 @@ public class taskListActivity extends AppCompatActivity
                 mTaskContainer = (LinearLayout) view.findViewById(R.id.task_list_container);
                 mTaskName = (TextView) view.findViewById(R.id.task_list_name);
                 mDueDate = (TextView) view.findViewById(R.id.task_list_due_date);
+                mTaskCard = (CardView) view.findViewById(R.id.task_card);
             }
 
             @Override
@@ -304,5 +316,16 @@ public class taskListActivity extends AppCompatActivity
             e.printStackTrace();
             return "";
         }
+    }
+
+    private int priorityPosition(String priority) {
+        int i = 0;
+        for (String str : mPriorities) {
+            if (priority.compareTo(str) == 0) {
+                return i;
+            }
+            i++;
+        }
+        return 0;
     }
 }

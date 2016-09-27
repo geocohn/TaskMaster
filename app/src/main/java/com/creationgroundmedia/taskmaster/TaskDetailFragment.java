@@ -175,7 +175,6 @@ public class TaskDetailFragment extends DialogFragment
             mContext.getContentResolver().insert(TaskListContract.TaskListEntry.TASKLIST_URI,
                     values);
         } else {
-            values.put(TaskListContract.TaskListEntry._ID, mItemId);
             mContext.getContentResolver().update(TaskListContract.TaskListEntry.buildTaskUri(mItemId),
                     values,
                     null,

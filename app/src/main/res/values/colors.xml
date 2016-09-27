@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#ff4081</color>
+    <color name="colorUrgent">#22ff0000</color>
+    <color name="colorNormal">#22ffff00</color>
+    <color name="colorLow">#2200ff00</color>
+    <array name="priority_colors">
+        <item>@color/colorUrgent</item>
+        <item>@color/colorNormal</item>
+        <item>@color/colorLow</item>
+    </array>
 </resources>
