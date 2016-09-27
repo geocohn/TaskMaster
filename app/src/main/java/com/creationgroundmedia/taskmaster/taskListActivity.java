@@ -139,7 +139,7 @@ public class taskListActivity extends AppCompatActivity
                         PROJECTION,                             // Projection to return
                         null,
                         null,                                   // No selection arguments
-                        null
+                        TaskListContract.TaskListEntry.COLUMN_DUEDATE + " ASC"
                 );
             default:
                 // An invalid id was passed in
@@ -308,7 +308,7 @@ public class taskListActivity extends AppCompatActivity
 
     public String formattedDateString(String rawDate) {
         final SimpleDateFormat rawFormat = new SimpleDateFormat("yyyyMMdd");
-        final SimpleDateFormat outFormat = new SimpleDateFormat();
+        final SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MMM-dd");
         try {
             Date date = rawFormat.parse(rawDate);
             return outFormat.format(date);

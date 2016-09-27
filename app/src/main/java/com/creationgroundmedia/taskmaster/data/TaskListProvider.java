@@ -161,6 +161,14 @@ public class TaskListProvider extends ContentProvider {
                                 " _ID = " + TaskListContract.TaskListEntry.getTaskRowIdFromUri(uri)
                                 + (!TextUtils.isEmpty(selection) ? " AND (" +selection + ')' : ""),
                                 selectionArgs);
+                /*
+                 * if we update a single row,
+                 * listeners on the whole list will have to be notified too.
+                 * This doesn't happen automatically because
+                 * the list item URI isn't derived from the list URI
+                 */
+                getContext().getContentResolver()
+                        .notifyChange(TaskListContract.TaskListEntry.TASKLIST_URI, null);
                 break;
             }
             case TASKS: {

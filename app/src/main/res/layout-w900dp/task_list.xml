@@ -23,8 +23,8 @@
         android:name="com.creationgroundmedia.taskmaster.taskListFragment"
         android:layout_width="@dimen/item_width"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.creationgroundmedia.taskmaster.taskListActivity"
         tools:listitem="@layout/task_list_content" />
