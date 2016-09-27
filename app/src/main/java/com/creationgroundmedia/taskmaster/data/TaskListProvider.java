@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import static com.creationgroundmedia.taskmaster.data.TaskListContract.TaskListEntry.getTaskRowIdFromUri;
 
@@ -151,12 +152,23 @@ public class TaskListProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        long id;
+        int count;
         switch (mUriMatcher.match(uri)) {
-            case TASK:
+            case TASK: {
+                count = mOpenHelper.getWritableDatabase()
+                        .update(TaskListContract.TaskListEntry.TABLE_NAME,
+                                values,
+                                " _ID = " + TaskListContract.TaskListEntry.getTaskRowIdFromUri(uri)
+                                + (!TextUtils.isEmpty(selection) ? " AND (" +selection + ')' : ""),
+                                selectionArgs);
+                break;
+            }
             case TASKS: {
-                id = mOpenHelper.getWritableDatabase()
-                        .replace(TaskListContract.TaskListEntry.TABLE_NAME, null, values);
+                count = mOpenHelper.getWritableDatabase()
+                        .update(TaskListContract.TaskListEntry.TABLE_NAME,
+                                values,
+                                selection,
+                                selectionArgs);
                 break;
             }
             default: {
@@ -164,6 +176,6 @@ public class TaskListProvider extends ContentProvider {
             }
         }
         getContext().getContentResolver().notifyChange(uri, null);
-        return (int) id;
+        return count;
     }
 }
