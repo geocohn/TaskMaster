@@ -3,7 +3,6 @@ package com.creationgroundmedia.taskmaster;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,11 +36,11 @@ import java.util.Date;
  * An activity representing a list of tasks. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link taskDetailActivity} representing
+ * lead to a {@link TaskDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class taskListActivity extends AppCompatActivity
+public class TaskListActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int URL_LOADER = 1;

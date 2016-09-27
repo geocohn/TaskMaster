@@ -27,8 +27,8 @@ import com.creationgroundmedia.taskmaster.data.TaskListContract;
 
 /**
  * A fragment representing a single task detail screen.
- * This fragment is either contained in a {@link taskListActivity}
- * in two-pane mode (on tablets) or a {@link taskDetailActivity}
+ * This fragment is either contained in a {@link TaskListActivity}
+ * in two-pane mode (on tablets) or a {@link TaskDetailActivity}
  * on handsets.
  */
 public class TaskDetailFragment extends DialogFragment
@@ -92,7 +92,7 @@ public class TaskDetailFragment extends DialogFragment
     }
 
     public static void launchInstance(Context context, String id) {
-        Intent intent = new Intent(context, taskDetailActivity.class);
+        Intent intent = new Intent(context, TaskDetailActivity.class);
         intent.putExtra(TaskDetailFragment.ARG_ITEM_ID, id);
         context.startActivity(intent);
     }
