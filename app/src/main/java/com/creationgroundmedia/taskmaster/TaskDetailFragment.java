@@ -74,6 +74,7 @@ public class TaskDetailFragment extends DialogFragment
     private boolean mNewTask;
     private boolean mDone = false;
     private CheckBox mCompletedView;
+    private boolean mBackFromRotation;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -104,6 +105,14 @@ public class TaskDetailFragment extends DialogFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mBackFromRotation = savedInstanceState != null;
+        if (mBackFromRotation) {
+            mDescription = savedInstanceState.getString(TaskListContract.TaskListEntry.COLUMN_DESCRIPTION);
+            mDueDate = savedInstanceState.getString(TaskListContract.TaskListEntry.COLUMN_DUEDATE);
+            mName = savedInstanceState.getString(TaskListContract.TaskListEntry.COLUMN_NAME);
+            mPriority = savedInstanceState.getString(TaskListContract.TaskListEntry.COLUMN_PRIORITY);
+            mDone = savedInstanceState.getString(TaskListContract.TaskListEntry.COLUMN_STATUS) != "0";
+        }
 
         /**
          * If we have an argument that's not null and not an empty string,
@@ -117,6 +126,16 @@ public class TaskDetailFragment extends DialogFragment
                 mItemId = Long.parseLong(itemIdString);
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(TaskListContract.TaskListEntry.COLUMN_DESCRIPTION, mDescription);
+        outState.putString(TaskListContract.TaskListEntry.COLUMN_DUEDATE, mDueDate);
+        outState.putString(TaskListContract.TaskListEntry.COLUMN_NAME, mName);
+        outState.putString(TaskListContract.TaskListEntry.COLUMN_PRIORITY, mPriority);
+        outState.putString(TaskListContract.TaskListEntry.COLUMN_STATUS, mDone? "1" : "0");
     }
 
     @Override
@@ -155,7 +174,7 @@ public class TaskDetailFragment extends DialogFragment
                 }
             }
         });
-        if (!mNewTask) {
+        if (!mBackFromRotation && !mNewTask) {
             mCursorLoader = getActivity().getSupportLoaderManager().initLoader(URL_LOADER, null, this);
         }
         return mView;
