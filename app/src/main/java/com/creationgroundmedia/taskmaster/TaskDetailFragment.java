@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -65,12 +67,13 @@ public class TaskDetailFragment extends DialogFragment
     private String mName;
     private String mDescription;
     private String mPriority;
-    private String mStatus = "0";
     private Spinner mPriorityView;
     private EditText mNameView;
     private EditText mDescriptionView;
     private DatePicker mDateView;
     private boolean mNewTask;
+    private boolean mDone = false;
+    private CheckBox mCompletedView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -123,6 +126,7 @@ public class TaskDetailFragment extends DialogFragment
         mNameView = (EditText) mView.findViewById(R.id.task_detail_name);
         mDescriptionView = (EditText) mView.findViewById(R.id.task_detail_description);
         mDateView = (DatePicker) mView.findViewById(R.id.task_detail_due_date);
+        mCompletedView = (CheckBox) mView.findViewById(R.id.task_detail_status);
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(mContext,
                 R.array.priority, android.R.layout.simple_spinner_item);
@@ -161,7 +165,6 @@ public class TaskDetailFragment extends DialogFragment
         mName = String.valueOf(mNameView.getText());
         mDescription = String.valueOf(mDescriptionView.getText());
         mPriority = mPriorityView.getSelectedItem().toString();
-        mStatus = "0";
         mDueDate = String.format("%4d%02d%02d",
                 mDateView.getYear(), mDateView.getMonth() + 1, mDateView.getDayOfMonth());
 
@@ -170,7 +173,7 @@ public class TaskDetailFragment extends DialogFragment
         values.put(TaskListContract.TaskListEntry.COLUMN_DUEDATE, mDueDate);
         values.put(TaskListContract.TaskListEntry.COLUMN_NAME, mName);
         values.put(TaskListContract.TaskListEntry.COLUMN_PRIORITY, mPriority);
-        values.put(TaskListContract.TaskListEntry.COLUMN_STATUS, mStatus);
+        values.put(TaskListContract.TaskListEntry.COLUMN_STATUS, mDone? "1" : "0");
         if (mNewTask) {
             mContext.getContentResolver().insert(TaskListContract.TaskListEntry.TASKLIST_URI,
                     values);
@@ -221,7 +224,14 @@ public class TaskDetailFragment extends DialogFragment
         mName = data.getString(NAME);
         mDueDate = data.getString(DUEDATE);
         mDescription = data.getString(DESCRIPTION);
-        mStatus = data.getString(STATUS);
+        mDone = data.getString(STATUS).compareTo("0") != 0;
+        mCompletedView.setChecked(mDone);
+        mCompletedView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mDone = isChecked;
+            }
+        });
         mPriority = data.getString(PRIORITY);
 
         mNameView.setText(mName);
@@ -229,7 +239,6 @@ public class TaskDetailFragment extends DialogFragment
         mPriorityView.setSelection(priorityPosition(mPriority));
 
         mDateView.init(getYear(mDueDate), getMonth(mDueDate), getDay(mDueDate), null);
-        mStatus = "0";
     }
 
     private int priorityPosition(String priority) {
