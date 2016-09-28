@@ -45,7 +45,7 @@ Here's a walkthrough of implemented user stories:
 
 ![Video walkthrough](./screen%20captures/device-2016-09-27-163004.gif?raw=true)
 
-GIF created on Ubuntu 16.04 using ffmpeg and convert.
+GIF created on [Ubuntu 16.04](https://wiki.ubuntu.com/XenialXerus/ReleaseNotes) using [ffmpeg](http://ffmpeg.org/) and [convert](http://www.imagemagick.org/script/convert.php).
 
 ## Notes
 
