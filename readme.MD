@@ -2,9 +2,10 @@
 
 ## A simple to-do list manager for Android
 
-Allows the user to manage tasks on a single mobile device.
+Allows the user to manage tasks on a single mobile device. It supports adding, editing, and deleting tasks, as well as task persistence on the device.
 
-This was developed as an entry requirement for the [Codepath Android Mobile Bootcamp](https://codepath.com/androidbootcamp).
+This was developed By [George Cohn](https://github.com/GeoCohn) as an entry requirement for the [Codepath Android Mobile Bootcamp](https://codepath.com/androidbootcamp).
+The buildup took about 16 hours.
 
 ### Prerequisities
 
@@ -14,12 +15,21 @@ You can build the app and sideload it onto any Android device or Android emulato
 
 After cloning the repository, build and install using [this guideline](http://developer.android.com/tools/building/building-cmdline.html)
 
-## Using
+## User Stories
 
-From the main screen, use the fab (floating action button) to add new tasks. You can edit a task by clicking on it, and even add new tasks while editing by using the fab. When editing, return to the main screen by using the back button. Make sure you use the save button first. From the main screen you can mark a task as done, and you can delete tasks by swiping them off the screen.
+* From the main screen, use the fab (floating action button) to add new tasks.
+* edit a task by clicking on it, and even add new tasks while editing by using the fab.
+* Return to the main screen by using the back button. Use the save button first or changes will be lost.
+* Mark a task as done from the main or detail screens
+* Delete tasks by swiping them off the main screen.
 
-On larger wide devices the selected task's edit screen appears on the same page, alongside the task list.
-
+### Additional Features
+* Persistence of tasks is implemented in Sqlite via a Content Provider
+* The main list is implemented as a RecyclerView
+* The list is sorted by completion date, set in the detail view using a DatePicker
+* The detail view is implemented in a DialogFragment, used as a dialog for new tasks, and as a regular fragment for editing.
+* On larger wide devices the selected task's edit screen appears on the same page, alongside the task list.
+* Task priorities (low, normal, urgent) are selectable in the Detail view via a spinner, and are visible as the task's background color on the main screen.
 ## Authors
 
 * **George Cohn** - *Initial work* - https://github.com/GeoCohn
