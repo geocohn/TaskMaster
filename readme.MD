@@ -1,38 +1,62 @@
-# TaskMaster
+# Pre-work - TaskMaster
 
 ## A simple to-do list manager for Android
 
-Allows the user to manage tasks on a single mobile device. It supports adding, editing, and deleting tasks, as well as task persistence on the device.
+TaskMaster is an android app that allows building a todo list and basic todo items management functionality including adding new items, editing and deleting an existing item.
 
-This was developed By [George Cohn](https://github.com/GeoCohn) as an entry requirement for the [Codepath Android Mobile Bootcamp](https://codepath.com/androidbootcamp).
-The buildup took about 16 hours.
+Submitted by: [George Cohn](https://github.com/GeoCohn)
 
-### Prerequisities
-
-You can build the app and sideload it onto any Android device or Android emulator running 4.0.3 or later.
-
-### Installing
-
-After cloning the repository, build and install using [this guideline](http://developer.android.com/tools/building/building-cmdline.html)
+Time spent: 20 hours spent in total
 
 ## User Stories
 
-* From the main screen, use the fab (floating action button) to add new tasks.
-* edit a task by clicking on it, and even add new tasks while editing by using the fab.
-* Return to the main screen by using the back button. Use the save button first or changes will be lost.
-* Mark a task as done from the main or detail screens
-* Delete tasks by swiping them off the main screen.
+The following required functionality is completed:
 
-### Additional Features
-* Persistence of tasks is implemented in Sqlite via a Content Provider
-* The main list is implemented as a RecyclerView
-* The list is sorted by completion date, set in the detail view using a DatePicker
-* The detail view is implemented in a DialogFragment, used as a dialog for new tasks, and as a regular fragment for editing.
-* On larger wide devices the selected task's edit screen appears on the same page, alongside the task list.
-* Task priorities (low, normal, urgent) are selectable in the Detail view via a spinner, and are visible as the task's background color on the main screen.
-## Authors
+* [x] User can successfully add and remove items from the todo list
+* [x] User can tap a todo item in the list and bring up an edit screen for the todo item and then have any changes to the text reflected in the todo list.
+* [x] User can persist todo items and retrieve them properly on app restart
 
-* **George Cohn** - *Initial work* - https://github.com/GeoCohn
+The following optional features are implemented:
+
+* [x] Persist the todo items into SQLite instead of a text file
+* [x] Improve style of the todo items in the list using a custom adapter
+* [x] Add support for completion due dates for todo items (and display within listview item)
+* [x] Use a DialogFragment instead of new Activity for editing items
+* [x] Add support for selecting the priority of each todo item (and display in listview item)
+* [x] Tweak the style improving the UI / UX, play with colors, images or backgrounds
+
+The following additional features are implemented:
+
+* [x] A fab (floating action button) is used to add new tasks
+* [x] Add new tasks even while editing an existing one, by using the fab
+* [x] Mark a task as done from the main or detail screens
+* [x] Delete tasks by swiping them off the main screen
+* [x] Persistence of tasks is implemented in Sqlite via a Content Provider
+* [x] The main list is implemented as a RecyclerView
+* [x] The list is sorted by completion date, set in the detail view using a DatePicker
+* [x] The DialogFragment is used both as a dialog for new tasks, and as a regular fragment for editing
+* [x] The detail screen uses a ConstraintLayout
+* [x] On larger wide devices the selected task's edit screen appears on the same page, alongside the task list
+* [x] Task priorities (low, normal, urgent) visible as the task's background tint in the main view
+
+## Video Walkthrough
+
+Here's a walkthrough of implemented user stories:
+
+![Video walkthrough](./screen%20captures/device-2016-09-27-163004.gif?raw=true)
+
+GIF created on Ubuntu 16.04 using ffmpeg and convert.
+
+## Notes
+
+The framework is based on a Master/Detail flow template generated in Android Studio. It was then modified to access a Content Provider via a Cursor Loader, in order to automatically deal with synchronization/thread issues.
+
+Several TODO items come immediately to mind
+
+* Dates should be managed internally as Java Dates, and converted to strings only for display and serialization/deserialization
+* The date display format should be locale specific, or conform to user preferences
+* The Save button is awkward, and may even disappear in the New Task dialog if the Task Description grows too large
+* The List and Detail code have some duplicated code that should be refactored as static methods in some Util type class
 
 ## License
 
