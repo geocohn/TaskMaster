@@ -53,6 +53,7 @@ The framework is based on a Master/Detail flow template generated in Android Stu
 
 Several TODO items come immediately to mind
 
+* Deleting tasks and checking/unchecking 'Done' in the main screen should change only the affected row(s) instead of causing the entire list to refresh.
 * Dates should be managed internally as Java Dates, and converted to strings only for display and serialization/deserialization
 * The date display format should be locale specific, or conform to user preferences
 * The Save button is awkward, and may even disappear in the New Task dialog if the Task Description grows too large
